@@ -110,8 +110,7 @@ pipeline{
                  withSonarQubeEnv(installationName: 'sonarqube-server', credentialsId: 'sonarqube-secret-token') {
                     
 
-                     sh './gradlew sonarqube
-  \
+                     sh './gradlew sonarqube \
                      -Dsonar.projectName=${GIT_REPO_NAME} \
   -Dsonar.host.url=http://localhost:9000 \
       -Dsonar.projectKey=test \
