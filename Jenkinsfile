@@ -131,6 +131,7 @@ pipeline{
                     
             }
         }
+                }
 stage("finished")
 {
     steps{
