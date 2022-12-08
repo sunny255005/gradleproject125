@@ -114,7 +114,7 @@ pipeline{
   \
                      -Dsonar.projectName=${GIT_REPO_NAME} \
   -Dsonar.host.url=http://localhost:9000 \
-      -Dsonar.login=sqa_05417851e3156615406c8549ee86f5a7b2ce9bdb \
+      -Dsonar.projectKey=test \
 '
 
                     
