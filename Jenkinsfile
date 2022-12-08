@@ -113,7 +113,7 @@ pipeline{
                      sh './gradlew sonarqube \
                      -Dsonar.projectName=${GIT_REPO_NAME} \
   -Dsonar.host.url=http://localhost:9000 \
-      -Dsonar.projectKey=test  \
+      -Dsonar.projectKey=test -Dsonar.buildbreaker.skip=false \
 '
                      
 
@@ -121,12 +121,7 @@ pipeline{
                 }
                 
                         
-                        timeout(time: 2, unit: 'MINUTES') {
-    def qualitygate = waitForQualityGate()
-    if (qualitygate.status != "OK") {
-        error "Pipeline aborted due to quality gate coverage failure."
-    }
-}
+                        
                     
             }
         }
