@@ -119,18 +119,25 @@ pipeline{
 
                     
                 }
-                timeout(25) {
-    def qualitygate = waitForQualityGate()
-    if (qualitygate.status != "OK") {
-        currentBuild.result = "UNSTABLE" 
-    }
-}
+            timeout(time: 10, unit: 'SECONDS') {
+                        def qg = waitForQualityGate()
+                        if (qg.status != 'OK') {
+                            error "Pipeline aborted due to quality gate failure: ${qg.status}"
+                        }
+                    }
                 
                         
                         
                     
             }
         }
+stage("finished")
+{
+    steps{
+        sh'echo finsihed'
+    }
+}
+
         }
       
         
