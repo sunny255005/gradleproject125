@@ -119,6 +119,10 @@ pipeline{
 
                     
                 }
+                if ("${json.projectStatus.status}" == "ERROR") {
+                            currentBuild.result = 'FAILURE'
+                            error('Pipeline aborted due to quality gate failure.')
+                    }
             }
         }
         }
