@@ -1,4 +1,5 @@
 
+
 pipeline{
     environment {
         PROD_BRANCH = 'master'
@@ -110,18 +111,44 @@ pipeline{
                     
 
                      sh './gradlew sonarqube \
-  -Dsonar.projectKey=test \
                      -Dsonar.projectName=${GIT_REPO_NAME} \
   -Dsonar.host.url=http://localhost:9000 \
+      -Dsonar.projectKey=test  \
 '
+                     
 
                     
                 }
+         
+                
+                        
+                        
+                    
             }
+          
         }
-        }
-      
-        
-    }
+                }
+       
 
+              
+          
+                 stage("Quality Gate") {
+            steps {
+              timeout(time: 10, unit: 'SECONDS') {
+                waitForQualityGate abortPipeline: true
+              }
+            }
+          }
+stage("finished")
+{
+    steps{
+        sh'echo finsihed'
+    }
 }
+
+        }
+}
+        
+    
+
+
