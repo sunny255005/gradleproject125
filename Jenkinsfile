@@ -113,7 +113,7 @@ pipeline{
                      sh './gradlew sonarqube \
                      -Dsonar.projectName=${GIT_REPO_NAME} \
   -Dsonar.host.url=http://localhost:9000 \
-      -Dsonar.projectKey=test \
+      -Dsonar.projectKey=test -Dsonar.branch.name=${BRANCH_NAME} \
 '
                      
 
