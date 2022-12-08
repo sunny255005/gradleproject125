@@ -113,12 +113,18 @@ pipeline{
                      sh './gradlew sonarqube \
                      -Dsonar.projectName=${GIT_REPO_NAME} \
   -Dsonar.host.url=http://localhost:9000 \
-      -Dsonar.projectKey=test -Dsonar.buildbreaker.skip=false \
+      -Dsonar.projectKey=test  \
 '
                      
 
                     
                 }
+                timeout(25) {
+    def qualitygate = waitForQualityGate()
+    if (qualitygate.status != "OK") {
+        currentBuild.result = "UNSTABLE" 
+    }
+}
                 
                         
                         
