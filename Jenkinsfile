@@ -130,56 +130,24 @@ pipeline{
             }
           
         }
+                 steps{
+                    script{
+
+ 
+  timeout(time: 1, unit: 'MINUTES') { // Just in case something goes wrong, pipeline will be killed after a timeout
+    def qg = waitForQualityGate() // Reuse taskId previously collected by withSonarQubeEnv
+    if (qg.status != 'OK') {
+      error "Pipeline aborted due to quality gate failure: ${qg.status}"
+    }
+  }
+  }
+}
+           
                 }
        
 
-      stage("Quality Gate"){
-            steps{
-                     script{
-        
-                         def reportFilePath = "build/sonar/report-task.txt"
-def reportTaskFileExists = fileExists "${reportFilePath}"
-if (reportTaskFileExists) {
-    echo "Found report task file"
-    def taskProps = readProperties file: "${reportFilePath}"
-    echo "taskId[${taskProps['ceTaskId']}]"
-    while (true) {
-        sleep 20
-        def taskStatusResult    =
-            sh(returnStdout: true,
-               script: "curl --user admin:admin \'http://localhost:9000/api/ce/task?id=${taskProps['ceTaskId']}\'")
-            echo "taskStatusResult[${taskStatusResult}]"
-        def taskStatus  = new JsonSlurper().parseText(taskStatusResult).task.status
-        echo "taskStatus[${taskStatus}]"
-        // Status can be SUCCESS, ERROR, PENDING, or IN_PROGRESS. The last two indicate it's
-        // not done yet.
-        if (taskStatus != "IN_PROGRESS" && taskStatus != "PENDING") {
-            break;
-        }
-    }
-}
-                     }}}
-        
-          
-//             stage("Quality Gate"){
-//                 steps{
-//                     script{
-
-//  def getURL = readProperties file: 'build/sonar/report-task.txt'
-//  //sh 'echo ${getURL}'
-//  sonarqubeURL = "${getURL['ceTaskUrl']}"
-// // response=sh 'curl -k -s -X GET --url ${sonarqubeURL}'
-// // echo "${response}"
-
-//  echo "${sonarqubeURL }"
-// //   timeout(time: 1, unit: 'MINUTES') { // Just in case something goes wrong, pipeline will be killed after a timeout
-// //     def qg = waitForQualityGate() // Reuse taskId previously collected by withSonarQubeEnv
-// //     if (qg.status != 'OK') {
-// //       error "Pipeline aborted due to quality gate failure: ${qg.status}"
-// //     }
-// //   }
-//   }
-// }
+    
+            
             
 stage("finished")
 {
