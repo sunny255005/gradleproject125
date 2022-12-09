@@ -130,7 +130,7 @@ pipeline{
             }
           
         }
-                 steps{
+                 
                     script{
 
  
@@ -141,7 +141,7 @@ pipeline{
     }
   }
   }
-}
+
            
                 }
        
