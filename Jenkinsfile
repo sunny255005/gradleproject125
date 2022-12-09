@@ -147,7 +147,7 @@ if (reportTaskFileExists) {
         sleep 20
         def taskStatusResult    =
             sh(returnStdout: true,
-               script: "curl --user  admin:admin \'http:localhost:9000/api/ce/task?id=${taskProps['ceTaskId']}\'")
+               script: "curl --user admin:admin \'http://localhost:9000/api/ce/task?id=${taskProps['ceTaskId']}\'")
             echo "taskStatusResult[${taskStatusResult}]"
         def taskStatus  = new JsonSlurper().parseText(taskStatusResult).task.status
         echo "taskStatus[${taskStatus}]"
