@@ -120,33 +120,26 @@ pipeline{
          echo "Hello,sonarqube continue...!"
             script {
 
-               try{   
-timeout(time: 10, unit: 'SECONDS') { // Just in case something goes wrong, pipeline will be killed after a timeout
-    def response = httpRequest 'http://44.227.115.141:9000' // Reuse taskId previously collected by withSonarQubeEnv
-    println("Status: "+response.status)
-    if (qg.status != 'OK') {
-        is_ready='No'
-      echo "Sonarqube Server may be not running,so Going to Next Stage"
-    }
-  
-                   }}
-                //def url = sh(returnStdout: true, script: 'git config remote.origin.url').trim()
-                //sh 'echo url'
-                catch(error){
-                if(is_ready=='Yes'){
+               try{  
+
+
+                   
+                    
+timeout(time: 2, unit: 'MINUTES') { // Just in case something goes wrong, pipeline will be killed after a timeout
+               if(is_ready=='Yes'){
                  withSonarQubeEnv(installationName: 'sonarqube-server', credentialsId: 'sonarqube-secret-token') {
                     
 
                      sh './gradlew sonarqube \
                      -Dsonar.projectName=${GIT_REPO_NAME} \
-  -Dsonar.host.url=http://localhost:9001 \
+  -Dsonar.host.url=http://localhost:9000 \
       -Dsonar.projectKey=test  \
 '
                      
 
                  }
 
-            timeout(time: 30, unit: 'SECONDS') { // Just in case something goes wrong, pipeline will be killed after a timeout
+            timeout(time: 1, unit: 'MINUTES') { // Just in case something goes wrong, pipeline will be killed after a timeout
     def qg = waitForQualityGate() // Reuse taskId previously collected by withSonarQubeEnv
     if (qg.status != 'OK') {
       error "Pipeline aborted due to quality gate failure: ${qg.status}"
@@ -154,7 +147,20 @@ timeout(time: 10, unit: 'SECONDS') { // Just in case something goes wrong, pipel
   }
                 }
 
+    
+   
   
+                   }}
+                //def url = sh(returnStdout: true, script: 'git config remote.origin.url').trim()
+                //sh 'echo url'
+                catch(error){
+     
+   def response = httpRequest 'http://44.227.115.141:9000' // Reuse taskId previously collected by withSonarQubeEnv
+    println("Status: "+response.status)
+    if (qg.status != 'OK') {
+        is_ready='No'
+      echo "Sonarqube Server may be not running,so Going to Next Stage"
+    }
                   
                 }    
                         
