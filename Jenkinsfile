@@ -122,7 +122,8 @@ pipeline{
 
                try{   
 timeout(time: 10, unit: 'SECONDS') { // Just in case something goes wrong, pipeline will be killed after a timeout
-    def qg = httpRequest 'http://44.227.115.141:9000' // Reuse taskId previously collected by withSonarQubeEnv
+    def response = httpRequest 'http://44.227.115.141:9000' // Reuse taskId previously collected by withSonarQubeEnv
+    println("Status: "+response.status)
     if (qg.status != 'OK') {
         is_ready='No'
       echo "Sonarqube Server may be not running,so Going to Next Stage"
