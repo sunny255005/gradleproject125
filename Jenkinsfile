@@ -103,7 +103,7 @@ pipeline{
 
                 stage('Sonarqube Integeration') {
             when {
-         expression { is_sonarqube == "Yes" }
+         expression { is_sonarqube == "Yes"  && sh'curl --location --request GET -w "%{http_code}" "http://44.227.115.141:9000/"'==200 }
      }
      steps {
          echo "Hello,sonarqube continue...!"
@@ -115,7 +115,7 @@ pipeline{
 
                      sh './gradlew sonarqube \
                      -Dsonar.projectName=${GIT_REPO_NAME} \
-  -Dsonar.host.url=http://localhost:9000 \
+  -Dsonar.host.url=http://localhost:9001 \
       -Dsonar.projectKey=test  \
 '
                      
@@ -123,7 +123,7 @@ pipeline{
                     
                 }
 
-  timeout(time: 0, unit: 'MINUTES') { // Just in case something goes wrong, pipeline will be killed after a timeout
+  timeout(time: 1, unit: 'MINUTES') { // Just in case something goes wrong, pipeline will be killed after a timeout
     def qg = waitForQualityGate() // Reuse taskId previously collected by withSonarQubeEnv
     if (qg.status != 'OK') {
       error "Pipeline aborted due to quality gate failure: ${qg.status}"
