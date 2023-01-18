@@ -154,10 +154,10 @@ timeout(time: 2, unit: 'MINUTES') { // Just in case something goes wrong, pipeli
                 //def url = sh(returnStdout: true, script: 'git config remote.origin.url').trim()
                 //sh 'echo url'
                 catch(error){
-      def user = error.getCauses()[0].getUser()
-           if('SYSTEM' == user.toString()) { // SYSTEM means timeout.
-             echo "Timeout reached, continue to next stage"
-           } 
+    //   def user = error.getCauses()[0].getUser()
+    //        if('SYSTEM' == user.toString()) { // SYSTEM means timeout.
+    //          echo "Timeout reached, continue to next stage"
+    //        } 
 //    def response = httpRequest 'http://44.227.115.141:9000' // Reuse taskId previously collected by withSonarQubeEnv
 //     println("Status: "+response.status)
 //     if (qg.status != 'OK') {
