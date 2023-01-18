@@ -125,7 +125,7 @@ timeout(time: 1, unit: 'MINUTES') { // Just in case something goes wrong, pipeli
     def qg = httpRequest 'http://44.227.115.141:9000' // Reuse taskId previously collected by withSonarQubeEnv
     if (qg.status != 'OK') {
         is_ready='No'
-      error "Sonarqube Server may be not running,so Going to Next Stage"
+      echo "Sonarqube Server may be not running,so Going to Next Stage"
     }
   
                    }
