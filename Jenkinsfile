@@ -95,11 +95,10 @@ pipeline{
                    
                    is_sonarqube=is_sonarqube_parameter
 
-  final String url = "http://44.227.115.141:9000"
-
-                    final String response = sh(script: "curl -s '%{http_code}' $url", returnStdout: true).trim()
-
-                    echo response
+   def response = httpRequest 'http://localhost:8080/jenkins/api/json?pretty=true'
+        println("Status: "+response.status)
+        println("Content: "+response.content)
+        
                   
 
                }}}
