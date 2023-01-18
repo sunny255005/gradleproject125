@@ -97,7 +97,7 @@ pipeline{
 
   final String url = "http://44.227.115.141:9000"
 
-                    final String response = sh(script: "curl -s $url", returnStdout: true).trim()
+                    final String response = sh(script: "curl -s '%{http_code}' $url", returnStdout: true).trim()
 
                     echo response
                   
