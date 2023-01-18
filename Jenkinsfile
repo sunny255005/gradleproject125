@@ -103,9 +103,11 @@ pipeline{
 
                 stage('Sonarqube Integeration') {
             when {
-         expression { is_sonarqube == "Yes"  && sh'curl --location --request GET -w "%{http_code}" "http://44.227.115.141:9000/"'==200 }
+         expression { is_sonarqube == "Yes"}
      }
      steps {
+         hello=sh'curl --location --request GET -w "%{http_code}" "http://44.227.115.141:9000/"'
+            echo hello
          echo "Hello,sonarqube continue...!"
             script {
                 def url = sh(returnStdout: true, script: 'git config remote.origin.url').trim()
