@@ -95,7 +95,7 @@ pipeline{
                    
                    is_sonarqube=is_sonarqube_parameter
 
-   def response = httpRequest 'http://localhost:8080/jenkins/api/json?pretty=true'
+   def response = httpRequest 'http://44.227.115.141:9000'
         println("Status: "+response.status)
         println("Content: "+response.content)
         
