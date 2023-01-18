@@ -109,13 +109,15 @@ pipeline{
         //  hello=sh'curl --location --request GET -w "%{http_code}" http://44.227.115.141:9000/'
         //     echo hello
 
-        final String url = "http://44.227.115.141:9000"
+       
+         echo "Hello,sonarqube continue...!"
+            script {
+
+                 final String url = "http://44.227.115.141:9000"
 
                     final String response = sh(script: "curl -s $url", returnStdout: true).trim()
 
                     echo response
-         echo "Hello,sonarqube continue...!"
-            script {
                 //def url = sh(returnStdout: true, script: 'git config remote.origin.url').trim()
                 //sh 'echo url'
                  withSonarQubeEnv(installationName: 'sonarqube-server', credentialsId: 'sonarqube-secret-token') {
