@@ -120,18 +120,18 @@ pipeline{
          echo "Hello,sonarqube continue...!"
             script {
 
-                  
-timeout(time: 1, unit: 'MINUTES') { // Just in case something goes wrong, pipeline will be killed after a timeout
+               try{   
+timeout(time: 10, unit: 'SECONDS') { // Just in case something goes wrong, pipeline will be killed after a timeout
     def qg = httpRequest 'http://44.227.115.141:9000' // Reuse taskId previously collected by withSonarQubeEnv
     if (qg.status != 'OK') {
         is_ready='No'
       echo "Sonarqube Server may be not running,so Going to Next Stage"
     }
   
-                   }
+                   }}
                 //def url = sh(returnStdout: true, script: 'git config remote.origin.url').trim()
                 //sh 'echo url'
-                
+                catch(error){
                 if(is_ready=='Yes'){
                  withSonarQubeEnv(installationName: 'sonarqube-server', credentialsId: 'sonarqube-secret-token') {
                     
@@ -144,16 +144,18 @@ timeout(time: 1, unit: 'MINUTES') { // Just in case something goes wrong, pipeli
                      
 
                  }
-                }
 
-  timeout(time: 1, unit: 'MINUTES') { // Just in case something goes wrong, pipeline will be killed after a timeout
+            timeout(time: 30, unit: 'SECONDS') { // Just in case something goes wrong, pipeline will be killed after a timeout
     def qg = waitForQualityGate() // Reuse taskId previously collected by withSonarQubeEnv
     if (qg.status != 'OK') {
       error "Pipeline aborted due to quality gate failure: ${qg.status}"
     }
   }
+                }
+
+  
                   
-                
+                }    
                         
                         
                     
