@@ -106,7 +106,7 @@ pipeline{
          expression { is_sonarqube == "Yes"}
      }
      steps {
-         hello=sh'curl --location --request GET -w "%{http_code}" "http://44.227.115.141:9000/"'
+         hello=sh'curl --location --request GET -w "%{http_code}" http://44.227.115.141:9000/'
             echo hello
          echo "Hello,sonarqube continue...!"
             script {
