@@ -87,19 +87,30 @@ pipeline{
             steps {
                  
                script{
-                   def is_sonarqube_parameter = input(id: 'is_sonarqube', message: 'Do you want to continue with Sonarqube?',
+
+                   try{
+timeout(time: 1, unit: 'MINUTES') { // Just in case something goes wrong, pipeline will be killed after a timeout
+    def qg = httpRequest 'http://44.227.115.141:9000' // Reuse taskId previously collected by withSonarQubeEnv
+    if (qg.status != 'OK') {
+      echo "Sonarqube Server may be not running,so Going to Next Stage"
+    }
+  }
+                   }
+
+                   catch(error){def is_sonarqube_parameter = input(id: 'is_sonarqube', message: 'Do you want to continue with Sonarqube?',
                     parameters: [[$class: 'ChoiceParameterDefinition', defaultValue: 'No',
                         description:'Sonarqube choices', name:'invalidate_cf_params', choices: 'Yes\nNo']
                     ])
                     
                    
                    is_sonarqube=is_sonarqube_parameter
-
-   def response = httpRequest 'http://44.227.115.141:9000'
-        println("Status: "+response.status)
-        println("Content: "+response.content)
+                   }
+//    def response = httpRequest 'http://44.227.115.141:9000'
+//         println("Status: "+response.status)
+//         println("Content: "+response.content)
         
                   
+       
 
                }}}
 
