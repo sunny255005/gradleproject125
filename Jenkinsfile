@@ -138,8 +138,8 @@ sh 'echo My password is ${hello}'
                      -Dsonar.projectName=${GIT_REPO_NAME} \
   -Dsonar.host.url=http://localhost:9000 \
       -Dsonar.projectKey=test  \
-
-    -Dsonar.login=${hello}'
+    -Dsonar.login=${hello}
+    '
 }
                     
                      
