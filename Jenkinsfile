@@ -41,9 +41,7 @@ pipeline{
             steps {
                 
                 echo 'docker build..'
-                 withCredentials([string(credentialsId: 'sonarqube-secret-token', variable: 'hello')]) {
-sh 'echo My password is ${hello}'
-}
+                 
             }
         }
         
@@ -124,6 +122,7 @@ sh 'echo My password is ${hello}'
          echo "Hello,sonarqube continue...!"
             script {
 
+                
                try{  
 
 
@@ -133,12 +132,16 @@ timeout(time: 2, unit: 'MINUTES') { // Just in case something goes wrong, pipeli
                if(is_ready=='Yes'){
                  withSonarQubeEnv(installationName: 'sonarqube-server', credentialsId: 'sonarqube-secret-token') {
                     
-
-                     sh './gradlew sonarqube \
+withCredentials([string(credentialsId: 'sonarqube-secret-token', variable: 'hello')]) {
+sh 'echo My password is ${hello}'
+     sh './gradlew sonarqube \
                      -Dsonar.projectName=${GIT_REPO_NAME} \
   -Dsonar.host.url=http://localhost:9000 \
       -Dsonar.projectKey=test  \
-'
+
+    -Dsonar.login=${hello}'
+}
+                    
                      
 
                  }
