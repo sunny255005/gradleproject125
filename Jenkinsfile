@@ -123,14 +123,13 @@ pipeline{
             script {
 
                 
-               try{  
-
+              
 
                    
                     
-timeout(time: 2, unit: 'MINUTES') { // Just in case something goes wrong, pipeline will be killed after a timeout
+
                if(is_ready=='Yes'){
-                 withSonarQubeEnv(installationName: 'sonarqube-server', credentialsId: 'sonarqube-secret-token') {
+withSonarQubeEnv(installationName: 'sonarqube-server', credentialsId: 'sonarqube-secret-token') {
                     
 withCredentials([string(credentialsId: 'sonarqube-secret-token', variable: 'hello')]) {
 sh 'echo My password is ${hello}'
@@ -138,8 +137,7 @@ sh 'echo My password is ${hello}'
                      -Dsonar.projectName=${GIT_REPO_NAME} \
   -Dsonar.host.url=http://localhost:9000 \
       -Dsonar.projectKey=test  \
-    -Dsonar.login=${hello}
-    '
+    -Dsonar.login=${hello}'
 }
                     
                      
@@ -157,22 +155,8 @@ sh 'echo My password is ${hello}'
     
    
   
-                   }}
-                //def url = sh(returnStdout: true, script: 'git config remote.origin.url').trim()
-                //sh 'echo url'
-                catch(error){
-    //   def user = error.getCauses()[0].getUser()
-    //        if('SYSTEM' == user.toString()) { // SYSTEM means timeout.
-    //          echo "Timeout reached, continue to next stage"
-    //        } 
-//    def response = httpRequest 'http://44.227.115.141:9000' // Reuse taskId previously collected by withSonarQubeEnv
-//     println("Status: "+response.status)
-//     if (qg.status != 'OK') {
-//         is_ready='No'
-//       echo "Sonarqube Server may be not running,so Going to Next Stage"
-//     }
-                  echo "Sonarqube Server may be not running,so Going to Next Stage"
-                }    
+                   
+                
                         
                         
                     
