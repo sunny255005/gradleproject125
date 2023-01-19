@@ -41,8 +41,8 @@ pipeline{
             steps {
                 
                 echo 'docker build..'
-                 withCredentials([string(credentialsId: 'sonarqube-secret-token', variable: 'sonarqube-secret-token-variable')]) {
-  echo "My password is '${sonarqube-secret-token-variable}'!"
+                 withCredentials([string(credentialsId: 'sonarqube-secret-token', variable: 'hello')]) {
+  sh 'echo "My password is '${hello}'!"'
 }
             }
         }
