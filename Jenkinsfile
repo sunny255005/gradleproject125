@@ -57,7 +57,7 @@ pipeline{
                    
                     is_unit_test_continue=is_unit_test_continue_parameter
 
-                   sh 'echo ${SONARQUBE_SECRET_TOKEN_PROJECT_SPECIFIC}'
+                   //sh 'echo ${SONARQUBE_SECRET_TOKEN_PROJECT_SPECIFIC}'
                   
 
                }}}
@@ -96,7 +96,9 @@ pipeline{
                         description:'Sonarqube choices', name:'invalidate_cf_params', choices: 'Yes\nNo']
                     ])
                     
-                   
+                   withCredentials([string(credentialsId: 'sonarqube-secret-token', variable: 'sonarqube-secret-token-variable')]) {
+  echo "My password is '${sonarqube-secret-token-variable}'!"
+}
                    is_sonarqube=is_sonarqube_parameter
                    
 //    def response = httpRequest 'http://44.227.115.141:9000'
