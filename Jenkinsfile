@@ -8,11 +8,13 @@ pipeline{
         is_unit_test_continue='No'
         is_sonarqube='No'
         //GIT_REPO_NAME = GIT_URL.replaceFirst(/^.*\/([^\/]+?).git$/, '$1')
-        GIT_REPO_NAME=scm.getUserRemoteConfigs()[0].getUrl().tokenize('/').last().split("\\.")[0]
+        GIT_REPO_NAME=determineRepoName()
         
     }
     
-    
+    String determineRepoName() {
+    return scm.getUserRemoteConfigs()[0].getUrl().tokenize('/')[3].split("\\.")[0]
+}
 
     agent any
     tools { 
