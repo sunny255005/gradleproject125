@@ -41,7 +41,8 @@ pipeline{
                 cleanWs()
                 def gitRemoteOriginUrl = scm.getUserRemoteConfigs()[0].getUrl()
                         echo 'The remote URL is ' + gitRemoteOriginUrl
-                echo 'docker build..'
+                echo 'docker build..${BRANCH_NAME}'
+                    
             }
         }
         }
