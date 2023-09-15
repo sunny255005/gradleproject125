@@ -37,7 +37,9 @@ pipeline{
         }
         stage('Docker Build') {
             steps {
-                
+                cleanWs()
+                def gitRemoteOriginUrl = scm.getUserRemoteConfigs()[0].getUrl()
+                        echo 'The remote URL is ' + gitRemoteOriginUrl
                 echo 'docker build..'
             }
         }
