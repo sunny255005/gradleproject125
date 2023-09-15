@@ -7,7 +7,8 @@ pipeline{
         user_env_input = 'Development'
         is_unit_test_continue='No'
         is_sonarqube='No'
-        GIT_REPO_NAME = GIT_URL.replaceFirst(/^.*\/([^\/]+?).git$/, '$1')
+        //GIT_REPO_NAME = GIT_URL.replaceFirst(/^.*\/([^\/]+?).git$/, '$1')
+        GIT_REPO_NAME=scm.getUserRemoteConfigs()[0].getUrl().tokenize('/').last().split("\\.")[0]
         
     }
     
@@ -42,6 +43,7 @@ pipeline{
                 def gitRemoteOriginUrl = scm.getUserRemoteConfigs()[0].getUrl()
                         echo 'The remote URL is ' + gitRemoteOriginUrl
                 echo 'docker build..${BRANCH_NAME}'
+                    echo '${GIT_REPO_NAME}'
                     
             }
         }
